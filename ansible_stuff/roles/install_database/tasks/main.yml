@@ -1,0 +1,18 @@
+---
+- name: 1. Install MariaDB server package
+  apt: name=mariadb-server state=present
+
+- name: 2. Start Mysql Service
+  service: name=mysql state=started enabled=true
+
+- name: 3. Create a new database
+  community.mysql.mysql_db: name=CloudDB state=present
+
+- name: 4. Create a database user
+  community.mysql.mysql_user: name=cloud password=cloud priv=*.*:ALL state=present
+
+- name: 5a. Copy sample data
+  copy: src=dump.sql dest=/tmp/dump.sql
+
+- name: 5b. Insert sample data
+  community.mysql.mysql_db: name=CloudDB state=import target=/tmp/dump.sql

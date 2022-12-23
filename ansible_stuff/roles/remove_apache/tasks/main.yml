@@ -1,0 +1,11 @@
+- name: 1. stop Apache
+  service: name=apache2 state=stopped enabled=no
+
+- name: 2. remove Apache
+  apt: name=apache2 state=absent
+
+- name: 3. remove PHP module for Apache
+  apt: name=php state=absent
+
+- name: 4. remove PHP module for database
+  apt: name=php-mysql state=absent
